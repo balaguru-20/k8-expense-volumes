@@ -71,31 +71,40 @@ metadata:
   labels:
     app: frontend
     tier: web
-    purpose: expense
+    project: expense
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: frontend
       tier: web
-      purpose: expense
+      project: expense
   template:
     metadata:
       labels:
         app: frontend
         tier: web
-        purpose: expense
+        project: expense
     spec:
       volumes:
       - name: nginx
         configMap:
           name: nginx
           items:
-          - key: nginx.conf
-            path: nginx.conf
+            - key: nginx.conf
+              path: nginx.conf
       containers:
       - name: nginx
         image: balaguru20/frontend:1.2.0
+        resources:
+          # soft limit
+          requests:
+            memory: "68Mi"
+            cpu: "100m"
+          # hard limit
+          limits:
+            memory: "128Mi"
+            cpu: "150m"
         ports:
         - containerPort: 8080
         volumeMounts:
@@ -114,7 +123,7 @@ spec:
   selector: # labels are used as selectors
     app: frontend
     tier: web
-    purpose: expense
+    project: expense
   ports:
   - protocol: TCP
     port: 80 # service port, we give whatever port we want
