@@ -46,7 +46,7 @@ data:
 
             # Load configuration files for the default server block.
             include /etc/nginx/default.d/*.conf;
-                     
+
             error_page 404 /404.html;
                 location = /40x.html {
             }
@@ -58,7 +58,7 @@ data:
 
     }
 ---
-apiVersion: apps/v1
+apiVersion: apps/v1 # it will overrides build image nginx.conf
 kind: Deployment
 metadata:
   name: frontend
@@ -83,10 +83,22 @@ spec:
         purpose: expense
     spec:
       containers:
+      volumes:
+      - name: nginx
+        configMap:
+          name: nginx
+          items:
+          - key: nginx.conf
+            path: nginx.conf
       - name: nginx
         image: balaguru20/frontend:1.2.0
         ports:
         - containerPort: 8080
+        volumeMounts:
+          - name: nginx
+            mountPath: /etc/nginx/nginx.conf
+            subPath: nginx.conf
+            readOnly: true
 ---
 kind: Service
 apiVersion: v1
