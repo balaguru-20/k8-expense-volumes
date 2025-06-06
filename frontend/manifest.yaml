@@ -82,7 +82,6 @@ spec:
         tier: web
         purpose: expense
     spec:
-      containers:
       volumes:
       - name: nginx
         configMap:
@@ -90,15 +89,16 @@ spec:
           items:
           - key: nginx.conf
             path: nginx.conf
+      containers:
       - name: nginx
         image: balaguru20/frontend:1.2.0
         ports:
         - containerPort: 8080
         volumeMounts:
-          - name: nginx
-            mountPath: /etc/nginx/nginx.conf
-            subPath: nginx.conf
-            readOnly: true
+        - name: nginx
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+          readOnly: true
 ---
 kind: Service
 apiVersion: v1
