@@ -34,7 +34,7 @@ spec:
       - name: nginx
         image: balaguru20/backend:1.0.0
         envFrom:
-        - ConfigMapRef:
+        - configMapRef:
             name: backend
 ---
 kind: Service
