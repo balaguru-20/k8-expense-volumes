@@ -15,20 +15,20 @@ metadata:
   labels:
     app: backend
     tier: backend
-    purpose: expense
+    project: expense
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: backend
       tier: backend
-      purpose: expense
+      project: expense
   template:
     metadata:
       labels:
         app: backend
         tier: backend
-        purpose: expense
+        project: expense
     spec:
       containers:
       - name: nginx
@@ -46,7 +46,7 @@ spec:
   selector: # labels are used as selectors
     app: backend
     tier: backend
-    purpose: expense
+    project: expense
   ports:
   - protocol: TCP
     port: 8080 # service port, we give whatever port we want
